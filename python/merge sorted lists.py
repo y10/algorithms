@@ -2,6 +2,7 @@
 # Merge all the linked-lists into one sorted linked-list and return it.
 # 23 on leetcode, bruteforce, DEVIDE AN CONQURE, MIN-HEAP 
 
+import heapq
 from typing import List
 from queue import PriorityQueue
 from classes.listnode import ListNode
@@ -79,19 +80,19 @@ class Soultion:
         if not (lists):
             return None
 
-        q = PriorityQueue()
+        q = []
         for node in lists:
             if node:
-                q.put((node.val, node))
+                heapq.heappush(q, (node.val, node))
 
         head = node = ListNode(0)
-        while not q.empty():
-            (v, l) = q.get()
+        while q:
+            (v, l) = heapq.heappop(q)
             node.next = ListNode(v)
             node = node.next
             l = l.next
             if (l):
-                q.put((l.val, l))
+                heapq.heappush(q, (l.val, l))
 
         return head.next
 
