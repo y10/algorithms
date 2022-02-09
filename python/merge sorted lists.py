@@ -80,7 +80,7 @@ class Soultion:
             return None
 
         q = PriorityQueue()
-        for i, node in enumerate(lists):
+        for node in lists:
             if node:
                 q.put((node.val, node))
 
@@ -113,8 +113,8 @@ class Soultion:
 
         return head.next
 
-
 arr = ListNode.generate(100)
+
 mesureit(lambda:Soultion().mergeListsDevideAndConquer(arr).toArray())
 mesureit(lambda:Soultion().mergeListsPriorityQueue(arr).toArray())
 mesureit(lambda:Soultion().mergeListsBrutally(arr).toArray())
