@@ -9,7 +9,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/bin/Debug/net6.0/most-chatty-user.dll",
+            "program": "${workspaceFolder}/bin/Debug/net6.0/word-count.dll",
             "args": ["list.txt", "3"],
             "cwd": "${workspaceFolder}",
             "console": "internalConsole",

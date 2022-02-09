@@ -1,7 +1,7 @@
 ﻿var env = MyEnvironment.Parse(args);
 var usersToWords = new System.Collections.Generic.Dictionary<string, int>();
 var usersList = new System.Collections.Generic.PriorityQueue<(string, int), int>();
-Console.WriteLine($"Parsing {env.Filename} for top {env.UsersNbr} chatty users!");
+Console.WriteLine($"Parsing {env.Filename} for top {env.UsersNbr} users!");
 
 IEnumerable<(string username, int wordcount)> ParseItr(string filename)
 {
