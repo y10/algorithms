@@ -82,16 +82,16 @@ class Soultion:
         q = PriorityQueue()
         for i, node in enumerate(lists):
             if node:
-                q.put((node.val, i, node))
+                q.put((node.val, node))
 
         head = node = ListNode(0)
         while not q.empty():
-            (v, i, l) = q.get()
+            (v, l) = q.get()
             node.next = ListNode(v)
             node = node.next
             l = l.next
             if (l):
-                q.put((l.val, i, l))
+                q.put((l.val, l))
 
         return head.next
 
@@ -114,7 +114,7 @@ class Soultion:
         return head.next
 
 
-arr = ListNode.generate(50)
+arr = ListNode.generate(100)
 mesureit(lambda:Soultion().mergeListsDevideAndConquer(arr).toArray())
 mesureit(lambda:Soultion().mergeListsPriorityQueue(arr).toArray())
 mesureit(lambda:Soultion().mergeListsBrutally(arr).toArray())

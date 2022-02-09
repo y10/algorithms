@@ -7,6 +7,11 @@ class ListNode(object):
         self.val = val
         self.next = next
 
+    def __eq__(self, other):
+        if (isinstance(other, ListNode)):
+            return self.val == other.val
+        return False
+
     def toString(self):
         return str(self.val)
 
