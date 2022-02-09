@@ -4,7 +4,7 @@ def parseLine(str:str) -> tuple[str, int]:
     return ("username", 1)
 
 usersToWordsMap = defaultdict(lambda: 0)
-fs = open('./assets/most chatty user list.log')
+fs = open('./assets/most wordy user list.log')
 n = 2
 
 try:
