@@ -9,8 +9,8 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/bin/Debug/net6.0/word-count.dll",
-            "args": ["list.txt", "3"],
+            "program": "${workspaceFolder}/bin/Debug/net6.0/Algorithms.dll",
+            "args": [],
             "cwd": "${workspaceFolder}",
             "console": "internalConsole",
             "stopAtEntry": false
