@@ -14,7 +14,7 @@
             this.Lists = ListNode.Deserialize(filename);
         }
 
-        public Solution(int k)
+        public Solution(int k, int l=500, int i=1000)
         {
             this.Lists = ListNode.GenerateLists(k);
         }
@@ -66,7 +66,7 @@
             for (int i = 1; i < lists.Count; i++)
             {
                 left = MergeTwoLists(left, lists[i]);
-            } 
+            }
 
             return left;
         }
@@ -104,27 +104,38 @@
             return head.Next;
         }
 
-        public ListNode? DevideAndConquer()
+        public ListNode? DivideAndConquer()
         {
-            return DevideAndConquer(Lists);
+            return DivideAndConquer(Lists, 0, Lists.Count -1);
         }
 
-        public ListNode? DevideAndConquer(List<ListNode?> lists)
+        public ListNode? DivideAndConquer(IEnumerable<ListNode?> lists)
         {
-            if (lists.Count == 0)
+            int listsCount = lists.Count();
+            if (listsCount == 0)
                 return null;
 
-            if (lists.Count == 1)
-                return lists[0];
+            if (listsCount == 1)
+                return lists.First();
 
-            if (lists.Count == 2)
-                return MergeTwoLists(lists[0], lists[1]);
+            int mdeian = listsCount / 2;
+            var left = DivideAndConquer(lists.Take(mdeian));
+            var right = DivideAndConquer(lists.Skip(mdeian));
 
-            int mdeian = lists.Count / 2;
-            var l = lists.Take(mdeian).ToList();
-            var left = DevideAndConquer(l);
-            var r = lists.Skip(mdeian).ToList();
-            var right = DevideAndConquer(r);
+            return MergeTwoLists(left, right);
+        }
+
+        public ListNode? DivideAndConquer(List<ListNode?> lists, int l, int r)
+        {
+            if (l > r)
+                return null;
+
+            if (l == r)
+                return lists[l];
+
+            int mdeian = (r + l) / 2;
+            var left = DivideAndConquer(lists, l, mdeian);
+            var right = DivideAndConquer(lists, mdeian + 1, r);
 
             return MergeTwoLists(left, right);
         }
@@ -135,7 +146,7 @@
             ListNode node = head;
             while (left != null && right != null)
             {
-                if (left.Value > right.Value)
+                if (left.Value < right.Value)
                 {
                     node.Next = left;
                     left = left.Next;
