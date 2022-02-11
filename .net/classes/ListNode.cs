@@ -16,13 +16,15 @@ class ListNode
 
     public static ListNode? Create(IEnumerable<int> list)
     {
-        ListNode? node = null;
-        foreach (var number in list.Reverse())
+        ListNode head = new ListNode(0);
+        ListNode node = head;
+        foreach (var number in list)
         {
-            node = new ListNode(number, node);
+            node.Next = new ListNode(number);
+            node = node.Next;
         }
 
-        return node;
+        return head.Next;
     }
 
     public static List<ListNode?> GenerateLists(int k = 1000, int l = 500, int i = 1000)
