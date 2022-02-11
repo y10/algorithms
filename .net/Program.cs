@@ -1,4 +1,9 @@
-﻿namespace Algorithms
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Algorithms
 {
     class Program
     {
@@ -13,7 +18,7 @@
 
         public static void TestMergeSortedListsByDivideAndConquer()
         {
-            Utils.Assert(() => new MergeSortedLists.Solution(new List<ListNode?>{
+            Utils.Assert(() => new MergeSortedLists.Solution(() => new List<ListNode?>{
                     ListNode.Create(new int[] {1,2,3,4,5}),
                     ListNode.Create(new int[] {4,5,6,7,8}),
                     ListNode.Create(new int[] {11,12,13,14,15})
@@ -29,7 +34,7 @@
 
         public static void TestMergeSortedListsByUseBruteForce()
         {
-            Utils.Assert(() => new MergeSortedLists.Solution(new List<ListNode?>{
+            Utils.Assert(() => new MergeSortedLists.Solution(() => new List<ListNode?>{
                     ListNode.Create(new int[] {1,2,3,4,5}),
                     ListNode.Create(new int[] {4,5,6,7,8}),
                     ListNode.Create(new int[] {11,12,13,14,15})
@@ -45,7 +50,7 @@
 
         public static void TestMergeSortedListsByUseNativeSort()
         {
-            Utils.Assert(() => new MergeSortedLists.Solution(new List<ListNode?>{
+            Utils.Assert(() => new MergeSortedLists.Solution(() => new List<ListNode?>{
                     ListNode.Create(new int[] {1,2,3,4,5}),
                     ListNode.Create(new int[] {4,5,6,7,8}),
                     ListNode.Create(new int[] {11,12,13,14,15})
@@ -61,7 +66,7 @@
 
         public static void TestMergeSortedListsByUsePriorityQueue()
         {
-            Utils.Assert(() => new MergeSortedLists.Solution(new List<ListNode?>{
+            Utils.Assert(() => new MergeSortedLists.Solution(()=>new List<ListNode?>{
                     ListNode.Create(new int[] {1,2,3,4,5}),
                     ListNode.Create(new int[] {4,5,6,7,8}),
                     ListNode.Create(new int[] {11,12,13,14,15})
@@ -77,7 +82,7 @@
 
         public static void MesureMergeSortedLists()
         {
-            Utils.Testit(() => new MergeSortedLists.Solution(new List<ListNode?>{
+            Utils.Testit(() => new MergeSortedLists.Solution(() => new List<ListNode?>{
                 ListNode.Create(new int[] {1,2,3,4,5}),
                 ListNode.Create(new int[] {4,5,6,7,8}),
                 ListNode.Create(new int[] {11,12,13,14,15})
@@ -87,19 +92,19 @@
              .Mesure((test) => test.DivideAndConquer())
              .Mesure((test) => test.UsePriorityQueue());
         }
-        
 
         public static void MesureBigMergeSortedLists()
         {
-            Utils.Testit(() => new MergeSortedLists.Solution(filename: "./merge-sorted-lists/lists.txt")).Mesure((test) => test.UseNativeSort());            
-            Utils.Testit(() => new MergeSortedLists.Solution(filename: "./merge-sorted-lists/lists.txt")).Mesure((test) => test.UseBruteForce());            
+            Utils.Testit(() => new MergeSortedLists.Solution(filename: "./merge-sorted-lists/lists.txt")).Mesure((test) => test.UseNativeSort());
+            //Utils.Testit(() => new MergeSortedLists.Solution(filename: "./merge-sorted-lists/lists.txt")).Mesure((test) => test.UseBruteForce());
             Utils.Testit(() => new MergeSortedLists.Solution(filename: "./merge-sorted-lists/lists.txt")).Mesure((test) => test.DivideAndConquer());
-            Utils.Testit(() => new MergeSortedLists.Solution(filename: "./merge-sorted-lists/lists.txt")).Mesure((test) => test.UsePriorityQueue());            
+            Utils.Testit(() => new MergeSortedLists.Solution(filename: "./merge-sorted-lists/lists.txt")).Mesure((test) => test.UsePriorityQueue());
         }
 
         public static void Main(string[] args)
         {
-            MesureBigMergeSortedLists();/*
+            MesureBigMergeSortedLists();
+            /*
             TestMergeSortedListsByUseNativeSort();
             TestMergeSortedListsByUseBruteForce();
             TestMergeSortedListsByDivideAndConquer();

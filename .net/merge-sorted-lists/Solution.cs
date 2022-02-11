@@ -1,46 +1,52 @@
-﻿namespace Algorithms.MergeSortedLists
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Algorithms.MergeSortedLists
 {
     class Solution
     {
-        public List<ListNode?> Lists { get; }
+        public Func<List<ListNode?>> Generator { get;  }
 
-        public Solution(List<ListNode?> lists)
+        public Solution(Func<List<ListNode?>> generator)
         {
-            this.Lists = lists;
+            this.Generator = generator;
         }
 
         public Solution(string filename)
         {
-            this.Lists = ListNode.Deserialize(filename);
+            this.Generator = ()=> ListNode.Deserialize(filename);
         }
 
-        public Solution(int k, int l=500, int i=1000)
+        public Solution(int k, int l = 500, int i = 1000)
         {
-            this.Lists = ListNode.GenerateLists(k);
+            this.Generator = () => ListNode.GenerateLists(k);
         }
 
         public ListNode? UseNativeSort()
         {
-            return UseNativeSort(Lists);
+            return UseNativeSort(this.Generator());
         }
 
         public ListNode? UseNativeSort(List<ListNode?> lists)
         {
-            var nums = new List<int>(lists.Count);
+            var numbers = new List<int>();
+
             foreach (var list in lists)
             {
                 var node = list;
                 while (node != null)
                 {
-                    nums.Add(node.Value);
+                    numbers.Add(node.Value);
                     node = node.Next;
                 }
             }
 
             var head = new ListNode(0);
             var temp = head;
-            nums.Sort();
-            foreach (var num in nums)
+            numbers.Sort();
+            foreach (var num in numbers)
             {
                 temp = temp.Next = new ListNode(num);
             }
@@ -50,7 +56,7 @@
 
         public ListNode? UseBruteForce()
         {
-            return UseBruteForce(Lists);
+            return UseBruteForce(this.Generator());
         }
 
         public ListNode? UseBruteForce(List<ListNode?> lists)
@@ -72,7 +78,7 @@
 
         public ListNode? UsePriorityQueue()
         {
-            return UsePriorityQueue(Lists);
+            return UsePriorityQueue(this.Generator());
         }
 
         public ListNode? UsePriorityQueue(List<ListNode?> lists)
@@ -91,17 +97,13 @@
             var node = head;
             while (q.Count > 0)
             {
-                var top = q.Peek();
-                if (top.Next != null)
+                var l = q.Dequeue();
+                if (l.Next != null)
                 {
-                    var next = top.Next;
-                    q.EnqueueDequeue(next, next.Value);
+                    var next = l.Next;
+                    q.Enqueue(next, next.Value);
                 }
-                else
-                {
-                    q.Dequeue();
-                }
-                node = node.Next = top;
+                node = node.Next = l;
             }
 
             return head.Next;
@@ -109,7 +111,21 @@
 
         public ListNode? DivideAndConquer()
         {
-            return DivideAndConquerIter(Lists);
+            return DivideAndConquerIter(this.Generator());
+        }
+
+        public ListNode? DivideAndConquerIter(List<ListNode?> lists)
+        {
+            int interval = 1;
+            while (interval < lists.Count) {
+                for (int i = 0; i < lists.Count - interval; interval *= 2)
+                {
+                    lists[i] = MergeTwoLists(lists[i], lists[i + interval]);
+                }
+                interval *= 2;
+            }
+
+            return lists.Count > 0 ? lists[0] : null;
         }
 
         public ListNode? DivideAndConquer(IEnumerable<ListNode?> lists)
@@ -141,21 +157,6 @@
             var right = DivideAndConquer(lists, mdeian + 1, r);
 
             return MergeTwoLists(left, right);
-        }
-
-        public ListNode? DivideAndConquerIter(List<ListNode?> lists)
-        {
-            int interval = 1;
-            while (interval < lists.Count) 
-            {
-                for (int i = 0; i < lists.Count - interval; interval *= 2)
-                {
-                    lists[i] = MergeTwoLists(lists[i], lists[i + interval]);
-                }
-                interval *= 2;
-            }
-
-            return lists.Count > 0 ? lists[0] : null;
         }
 
         public ListNode? MergeTwoLists(ListNode? left, ListNode? right)
