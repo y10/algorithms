@@ -19,6 +19,55 @@
                     ListNode.Create(new int[] {11,12,13,14,15})
             }).DivideAndConquer(), r =>
             {
+                Console.WriteLine("DivideAndConquer:");
+                var line = string.Join(',', r?.ToArray()?.Select(x => x.ToString()) ?? Enumerable.Empty<string>());
+                Console.Write(line);
+                Console.WriteLine();
+                return line == "1,2,3,4,4,5,5,6,7,8,11,12,13,14,15";
+            });
+        }
+
+        public static void TestMergeSortedListsByUseBruteForce()
+        {
+            Utils.Assert(() => new MergeSortedLists.Solution(new List<ListNode?>{
+                    ListNode.Create(new int[] {1,2,3,4,5}),
+                    ListNode.Create(new int[] {4,5,6,7,8}),
+                    ListNode.Create(new int[] {11,12,13,14,15})
+            }).UseBruteForce(), r =>
+            {
+                Console.WriteLine("UseBruteForce:");
+                var line = string.Join(',', r?.ToArray()?.Select(x => x.ToString()) ?? Enumerable.Empty<string>());
+                Console.Write(line);
+                Console.WriteLine();
+                return line == "1,2,3,4,4,5,5,6,7,8,11,12,13,14,15";
+            });
+        }
+
+        public static void TestMergeSortedListsByUseNativeSort()
+        {
+            Utils.Assert(() => new MergeSortedLists.Solution(new List<ListNode?>{
+                    ListNode.Create(new int[] {1,2,3,4,5}),
+                    ListNode.Create(new int[] {4,5,6,7,8}),
+                    ListNode.Create(new int[] {11,12,13,14,15})
+            }).UseNativeSort(), r =>
+            {
+                Console.WriteLine("UseNativeSort:");
+                var line = string.Join(',', r?.ToArray()?.Select(x => x.ToString()) ?? Enumerable.Empty<string>());
+                Console.Write(line);
+                Console.WriteLine();
+                return line == "1,2,3,4,4,5,5,6,7,8,11,12,13,14,15";
+            });
+        }
+
+        public static void TestMergeSortedListsByUsePriorityQueue()
+        {
+            Utils.Assert(() => new MergeSortedLists.Solution(new List<ListNode?>{
+                    ListNode.Create(new int[] {1,2,3,4,5}),
+                    ListNode.Create(new int[] {4,5,6,7,8}),
+                    ListNode.Create(new int[] {11,12,13,14,15})
+            }).UsePriorityQueue(), r =>
+            {
+                Console.WriteLine("UsePriorityQueue:");
                 var line = string.Join(',', r?.ToArray()?.Select(x => x.ToString()) ?? Enumerable.Empty<string>());
                 Console.Write(line);
                 Console.WriteLine();
@@ -29,37 +78,32 @@
         public static void MesureMergeSortedLists()
         {
             Utils.Testit(() => new MergeSortedLists.Solution(new List<ListNode?>{
-                    ListNode.Create(new int[] {1,2,3,4,5}),
-                    ListNode.Create(new int[] {4,5,6,7,8}),
-                    ListNode.Create(new int[] {11,12,13,14,15})
+                ListNode.Create(new int[] {1,2,3,4,5}),
+                ListNode.Create(new int[] {4,5,6,7,8}),
+                ListNode.Create(new int[] {11,12,13,14,15})
              }))
              .Mesure((test) => test.UseNativeSort())
              .Mesure((test) => test.UseBruteForce())
              .Mesure((test) => test.DivideAndConquer())
              .Mesure((test) => test.UsePriorityQueue());
         }
-
-        public static void MesureGenMergeSortedLists()
-        {
-            Utils.Testit(() => new MergeSortedLists.Solution(100000))
-            //.Mesure((test) => test.UseNativeSort())
-            //.Mesure((test) => test.UseBruteForce());
-            //.Mesure((test) => test.UsePriorityQueue());
-            .Mesure((test) => test.DivideAndConquer());
-        }
+        
 
         public static void MesureBigMergeSortedLists()
         {
-            Utils.Testit(() => new MergeSortedLists.Solution(filename: "./merge-sorted-lists/lists.txt"))
-            //.Mesure((test) => test.UseNativeSort())
-            //.Mesure((test) => test.UseBruteForce());
-            //.Mesure((test) => test.UsePriorityQueue());
-            .Mesure((test) => test.DivideAndConquer());
+            Utils.Testit(() => new MergeSortedLists.Solution(filename: "./merge-sorted-lists/lists.txt")).Mesure((test) => test.UseNativeSort());            
+            Utils.Testit(() => new MergeSortedLists.Solution(filename: "./merge-sorted-lists/lists.txt")).Mesure((test) => test.UseBruteForce());            
+            Utils.Testit(() => new MergeSortedLists.Solution(filename: "./merge-sorted-lists/lists.txt")).Mesure((test) => test.DivideAndConquer());
+            Utils.Testit(() => new MergeSortedLists.Solution(filename: "./merge-sorted-lists/lists.txt")).Mesure((test) => test.UsePriorityQueue());            
         }
 
         public static void Main(string[] args)
         {
+            MesureBigMergeSortedLists();/*
+            TestMergeSortedListsByUseNativeSort();
+            TestMergeSortedListsByUseBruteForce();
             TestMergeSortedListsByDivideAndConquer();
+            TestMergeSortedListsByUsePriorityQueue();*/
         }
     }
 }

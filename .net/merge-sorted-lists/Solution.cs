@@ -26,22 +26,21 @@
 
         public ListNode? UseNativeSort(List<ListNode?> lists)
         {
-            var numbers = new List<int>();
-
+            var nums = new List<int>(lists.Count);
             foreach (var list in lists)
             {
                 var node = list;
                 while (node != null)
                 {
-                    numbers.Append(node.Value);
+                    nums.Add(node.Value);
                     node = node.Next;
                 }
             }
 
             var head = new ListNode(0);
             var temp = head;
-            numbers.Sort();
-            foreach (var num in numbers)
+            nums.Sort();
+            foreach (var num in nums)
             {
                 temp = temp.Next = new ListNode(num);
             }
@@ -92,13 +91,17 @@
             var node = head;
             while (q.Count > 0)
             {
-                var l = q.Dequeue();
-                if (l.Next != null)
+                var top = q.Peek();
+                if (top.Next != null)
                 {
-                    var next = l.Next;
-                    q.Enqueue(next, next.Value);
+                    var next = top.Next;
+                    q.EnqueueDequeue(next, next.Value);
                 }
-                node = node.Next = new ListNode(l.Value);
+                else
+                {
+                    q.Dequeue();
+                }
+                node = node.Next = top;
             }
 
             return head.Next;
@@ -106,7 +109,7 @@
 
         public ListNode? DivideAndConquer()
         {
-            return DivideAndConquer(Lists, 0, Lists.Count -1);
+            return DivideAndConquerIter(Lists);
         }
 
         public ListNode? DivideAndConquer(IEnumerable<ListNode?> lists)
@@ -138,6 +141,21 @@
             var right = DivideAndConquer(lists, mdeian + 1, r);
 
             return MergeTwoLists(left, right);
+        }
+
+        public ListNode? DivideAndConquerIter(List<ListNode?> lists)
+        {
+            int interval = 1;
+            while (interval < lists.Count) 
+            {
+                for (int i = 0; i < lists.Count - interval; interval *= 2)
+                {
+                    lists[i] = MergeTwoLists(lists[i], lists[i + interval]);
+                }
+                interval *= 2;
+            }
+
+            return lists.Count > 0 ? lists[0] : null;
         }
 
         public ListNode? MergeTwoLists(ListNode? left, ListNode? right)

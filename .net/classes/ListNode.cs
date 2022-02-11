@@ -1,7 +1,20 @@
 class ListNode
 {
-    public int Value;
-    public ListNode? Next;
+    public int Value { get; set; }
+
+    public ListNode? Next
+    {
+        get
+        {
+            return (NextRef?.TryGetTarget(out ListNode? node) ?? false) ? node : null;
+        }
+        set
+        {
+            NextRef = new  WeakReference<ListNode?>(value, trackResurrection: false);
+        }
+    }
+
+    private WeakReference<ListNode?>? NextRef;
 
     public ListNode(int value)
     {
@@ -99,7 +112,7 @@ class ListNode
             using (var sr = new StreamReader(fs))
             {
                 var list = ListNode.Deserialize(sr);
-                while(list != null)
+                while (list != null)
                 {
                     lists.Add(list);
                     list = ListNode.Deserialize(sr);
