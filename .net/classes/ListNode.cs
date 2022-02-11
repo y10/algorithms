@@ -6,11 +6,16 @@ class ListNode
     {
         get
         {
-            return (NextRef?.TryGetTarget(out ListNode? node) ?? false) ? node : null;
+            if (NextRef != null && NextRef.TryGetTarget(out ListNode? node) == true)
+            {
+                return node;
+            }
+
+            return null;
         }
         set
         {
-            NextRef = new  WeakReference<ListNode?>(value, trackResurrection: false);
+            NextRef = new WeakReference<ListNode?>(value, trackResurrection: false);
         }
     }
 
