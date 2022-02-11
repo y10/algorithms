@@ -1,7 +1,7 @@
 using System.IO;
 using System.Diagnostics;
 
-public class Utils
+public static class Utils
 {
     public static void Mesure(Action fn)
     {
@@ -11,11 +11,16 @@ public class Utils
         Console.WriteLine($"Completed in {sw.ElapsedMilliseconds}ms.");
     }
 
-    public static void Testit<T>(Func<T> fn, Func<T, bool> assert)
+    public static void Assert<T>(Func<T> fn, Func<T, bool> assert)
     {
         var sw = Stopwatch.StartNew();
         T r = fn();
         sw.Stop();
-        Console.WriteLine($"{(assert(r)? "Successfully" : "Failed to be")} completed in {sw.ElapsedMilliseconds}ms.");
+        Console.WriteLine($"{(assert(r) ? "Successfully" : "Failed to be")} completed in {sw.ElapsedMilliseconds}ms.");
+    }
+
+    public static Test<T> Testit<T>(Func<T> fn)
+    {
+        return new Test<T>(fn);
     }
 }
