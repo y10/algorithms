@@ -2,7 +2,7 @@ from random import Random
 from typing import List
 
 
-class ListNode(object):
+class ListNode:
     def __init__(self, val=0, next=None):
         self.val = val
         self.next = next
@@ -32,7 +32,7 @@ class ListNode(object):
         return prev
 
     @staticmethod
-    def generate(k = 1000, l = 500, i = 1000):
+    def generateLists(k = 1000, l = 500, i = 1000):
         list = []
         rnd = Random()
         for _ in range(k):
@@ -42,3 +42,34 @@ class ListNode(object):
             innerlist.sort()
             list.append(ListNode.create(innerlist))
         return list
+
+    @staticmethod
+    def deserializeLine(line:str):
+        if line:
+            nums = line.split(',')
+            head = ListNode(0)
+            node = head
+            for num in nums:
+                node.Next = ListNode(int(num))
+                node = node.Next
+            
+            return head.Next
+        return None
+
+    def deserializeLists(filename):
+        fs = open(filename)
+        try:
+            list = []
+            line = fs.readline()
+            while line:
+                node = ListNode.deserializeLine(line)
+                if node:
+                    list.append(node)
+                line = fs.readline()
+
+        finally:
+            fs.close()
+
+        return list
+
+    

@@ -1,6 +1,6 @@
 # You are given an array of k linked-lists lists, each linked-list is sorted in ascending order.
 # Merge all the linked-lists into one sorted linked-list and return it.
-# 23 on leetcode, bruteforce, DEVIDE AN CONQURE, MIN-HEAP 
+# 23 on leetcode, bruteforce, Divide AN CONQURE, MIN-HEAP 
 
 import heapq
 from typing import List
@@ -57,8 +57,21 @@ class Soultion:
 
         node.next = left if left else right
         return temp.next 
-        
-    def mergeListsDevideAndConquer(self, lists:List[ListNode]):
+
+    def mergeListsDivideAndConquer(self, lists:List[ListNode]):
+        return self.mergeListsDivideAndConquer1(lists)
+
+    def mergeListsDivideAndConquer1(self, lists:List[ListNode]):
+
+        k = len(lists)
+        interval = 1
+        while interval < k:
+            for i in range(0, k - interval, interval * 2):
+                lists[i] = self.mergeTwoLists(lists[i], lists[i + interval])
+            interval *= 2
+        return lists[0] if k > 0 else None
+
+    def mergeListsDivideAndConquer2(self, lists:List[ListNode]):
 
         if(len(lists) == 0):
             return None
@@ -66,14 +79,25 @@ class Soultion:
         if(len(lists) == 1):
             return lists[0]
 
-        if(len(lists) == 2):
-            return self.mergeTwoLists(lists[0], lists[1])
-
         m = int((len(lists)+1)/2)
-        l = self.mergeListsDevideAndConquer(lists[0:m])
-        r = self.mergeListsDevideAndConquer(lists[m:])
+        l = self.mergeListsDivideAndConquer(lists[0:m])
+        r = self.mergeListsDivideAndConquer(lists[m:])
 
         return self.mergeTwoLists(l, r)
+
+    def mergeListsDivideAndConquer3(self, lists:List[ListNode], l:int, r:int):
+
+        if(l > r):
+            return None
+        
+        if(l == r):
+            return lists[l]
+
+        mid = int((l+r)/2)
+        left = self.mergeListsDivideAndConquer3(lists, l, mid)
+        right = self.mergeListsDivideAndConquer3(lists, mid+1, r)
+
+        return self.mergeTwoLists(left, right)        
 
     def mergeListsPriorityQueue(self, lists: List[ListNode]):
 
@@ -87,12 +111,12 @@ class Soultion:
 
         head = node = ListNode(0)
         while q:
-            (v, l) = heapq.heappop(q)
-            node.next = ListNode(v)
+            (v, top) = heapq.heappop(q)
+            node.next = top
             node = node.next
-            l = l.next
-            if (l):
-                heapq.heappush(q, (l.val, l))
+            top = top.next
+            if (top):
+                heapq.heappush(q, (top.val, top))
 
         return head.next
 
@@ -114,11 +138,9 @@ class Soultion:
 
         return head.next
 
-arr = ListNode.generate(100)
-
-mesureit(lambda:Soultion().mergeListsDevideAndConquer(arr).toArray())
-mesureit(lambda:Soultion().mergeListsPriorityQueue(arr).toArray())
-mesureit(lambda:Soultion().mergeListsBrutally(arr).toArray())
+mesureit(lambda:Soultion().mergeListsPriorityQueue(ListNode.deserializeLists('./assets/sorted linked lists.txt')).toArray())
+mesureit(lambda:Soultion().mergeListsDivideAndConquer(ListNode.deserializeLists('./assets/sorted linked lists.txt')).toArray())
+mesureit(lambda:Soultion().mergeListsBrutally(ListNode.deserializeLists('./assets/sorted linked lists.txt')).toArray())
 
 
 
