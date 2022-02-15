@@ -8,7 +8,7 @@ from queue import PriorityQueue
 from classes.listnode import ListNode
 from classes.utils import mesureit
 
-class Soultion:
+class Solution:
 
     def mergeTwoListsMine(self, left: ListNode, right: ListNode):    
         if not (left):
@@ -138,9 +138,9 @@ class Soultion:
 
         return head.next
 
-mesureit(lambda:Soultion().mergeListsPriorityQueue(ListNode.deserializeLists('./assets/sorted linked lists.txt')).toArray())
-mesureit(lambda:Soultion().mergeListsDivideAndConquer(ListNode.deserializeLists('./assets/sorted linked lists.txt')).toArray())
-mesureit(lambda:Soultion().mergeListsBrutally(ListNode.deserializeLists('./assets/sorted linked lists.txt')).toArray())
+mesureit(lambda:Solution().mergeListsPriorityQueue(ListNode.deserializeLists('./assets/sorted linked lists.txt')).toArray())
+mesureit(lambda:Solution().mergeListsDivideAndConquer(ListNode.deserializeLists('./assets/sorted linked lists.txt')).toArray())
+mesureit(lambda:Solution().mergeListsBrutally(ListNode.deserializeLists('./assets/sorted linked lists.txt')).toArray())
 
 
 
