@@ -1,4 +1,5 @@
 import copy
+import math
 from classes.utils import isTrue, print2DArray
 
 def rotate(array, n):
@@ -51,6 +52,25 @@ def rotate(array, n):
             array[r1][c1] = last 
 
     return array
+
+
+def neardy_rotate(given_array, n):
+    def rotate_sub(i, j, n):
+        return j, n - 1 - i
+
+    for i in range(math.ceil(n/2)):
+        for j in range(math.floor(n/2)):
+            tmp = [-1] * 4
+            (current_i, current_j) = (i, j)
+            for k in range(4):
+                tmp[k] = given_array[current_i][current_j]
+                (current_i, current_j) = rotate_sub(current_i, current_j, n)
+            for k in range(4):
+                given_array[current_i][current_j] = tmp[(k - 1) % 4]
+                (current_i, current_j) = rotate_sub(current_i, current_j, n)
+    return given_array
+
+
 
 def inefective_rotate(array, n):
 
@@ -111,50 +131,51 @@ def generate_rotated_field(n):
     return deepcopy_rotate(field, n)
 
 
-# NOTE: The following input values will be used for testing your solution.
-test(rotate, [[1, 2],
-             [3, 4]
-            ], 2, [
-             [3, 1],
-             [4, 2]
-            ])
+# # NOTE: The following input values will be used for testing your solution.
+# test(rotate, [[1, 2],
+#              [3, 4]
+#             ], 2, [
+#              [3, 1],
+#              [4, 2]
+#             ])
 
-test(rotate, [
-     [1, 2, 3],
-     [4, 5, 6],
-     [7, 8, 9]
-     ], 3, [
-     [7, 4, 1],
-     [8, 5, 2],
-     [9, 6, 3]
-])
+# test(rotate, [
+#      [1, 2, 3],
+#      [4, 5, 6],
+#      [7, 8, 9]
+#      ], 3, [
+#      [7, 4, 1],
+#      [8, 5, 2],
+#      [9, 6, 3]
+# ])
 
-test(rotate, [
-      [1, 2, 3, 4],
-      [5, 6, 7, 8],
-      [9, 10, 11, 12],
-      [13, 14, 15, 16]
-     ], 4, [
-      [13, 9, 5, 1],
-      [14, 10, 6, 2],
-      [15, 11, 7, 3],
-      [16, 12, 8, 4]
- ])
+# test(rotate, [
+#       [1, 2, 3, 4],
+#       [5, 6, 7, 8],
+#       [9, 10, 11, 12],
+#       [13, 14, 15, 16]
+#      ], 4, [
+#       [13, 9, 5, 1],
+#       [14, 10, 6, 2],
+#       [15, 11, 7, 3],
+#       [16, 12, 8, 4]
+#  ])
 
-test(rotate, [
-      [1, 2, 3, 4, 5],
-      [6, 7, 8, 9, 10],
-      [11,12,13,14,15],
-      [16,17,18,19,20],
-      [21,22,23,24,25],
-     ], 5, [
-     [21, 16, 11, 6, 1],
-     [22, 17, 12, 7, 2],
-     [23, 18, 13, 8, 3],
-     [24, 19, 14, 9, 4],
-     [25, 20, 15, 10,5]
- ])
+# test(rotate, [
+#       [1, 2, 3, 4, 5],
+#       [6, 7, 8, 9, 10],
+#       [11,12,13,14,15],
+#       [16,17,18,19,20],
+#       [21,22,23,24,25],
+#      ], 5, [
+#      [21, 16, 11, 6, 1],
+#      [22, 17, 12, 7, 2],
+#      [23, 18, 13, 8, 3],
+#      [24, 19, 14, 9, 4],
+#      [25, 20, 15, 10,5]
+#  ])
 
+test(neardy_rotate, generate_field(100), 100, generate_rotated_field(100))
 test(rotate, generate_field(100), 100, generate_rotated_field(100))
 test(inefective_rotate, generate_field(100), 100, generate_rotated_field(100))
 test(deepcopy_rotate, generate_field(100), 100, generate_rotated_field(100))
