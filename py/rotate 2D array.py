@@ -2,21 +2,15 @@ import copy
 import math
 from classes.utils import isTrue, print2DArray
 
+# 1  x  3  4
+# 5  6  7  x
+# x 10 11 12
+# 13 14 x 16
+
 def rotate(array, n):
+    if n == 1:
+        return array
 
-    def cellSet(offset, n):
-        itr = cells(offset, n)
-        while(True):
-            x = next(itr, None)
-            if (not x):
-                break
-            yield x, next(itr), next(itr), next(itr)
-
-    # 1  x  3  4
-    # 5  6  7  x
-    # x 10 11 12
-    # 13 14 x 16
-    
     def cells(offset, n):
         size = n - offset*2
         end = offset + size - 1 
@@ -29,20 +23,17 @@ def rotate(array, n):
             yield end, end-i
             yield end-i, offset
         
-           
-
-    if n == 1:
-        return array
-
     for offset in range(int(n/2)):
-        #print([array[r][c] for (r, c) in cells(offset, n)])
-
-        for set in cellSet(offset, n):
-
-            (r1, c1) = set[0]
-            (r2, c2) = set[1]
-            (r3, c3) = set[2]
-            (r4, c4) = set[3]
+        
+        itr = cells(offset, n)
+        x = next(itr, None)
+        while(x):
+            (r1, c1) = x
+            (r2, c2) = next(itr)
+            (r3, c3) = next(itr)
+            (r4, c4) = next(itr)
+            
+            x = next(itr, None)
 
             last = array[r4][c4]                
 
@@ -52,7 +43,6 @@ def rotate(array, n):
             array[r1][c1] = last 
 
     return array
-
 
 def neardy_rotate(given_array, n):
     def rotate_sub(i, j, n):
@@ -69,8 +59,6 @@ def neardy_rotate(given_array, n):
                 given_array[current_i][current_j] = tmp[(k - 1) % 4]
                 (current_i, current_j) = rotate_sub(current_i, current_j, n)
     return given_array
-
-
 
 def inefective_rotate(array, n):
 
@@ -175,7 +163,7 @@ def generate_rotated_field(n):
 #      [25, 20, 15, 10,5]
 #  ])
 
-test(neardy_rotate, generate_field(100), 100, generate_rotated_field(100))
-test(rotate, generate_field(100), 100, generate_rotated_field(100))
+test(rotate, generate_field(1000), 1000, generate_rotated_field(1000))
+test(neardy_rotate, generate_field(1000), 1000, generate_rotated_field(1000))
 test(inefective_rotate, generate_field(100), 100, generate_rotated_field(100))
 test(deepcopy_rotate, generate_field(100), 100, generate_rotated_field(100))
